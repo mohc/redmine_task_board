@@ -6,7 +6,14 @@ class TaskboardController < ApplicationController
   helper_method :column_manager_locals
 
   def index
-    @columns = TaskBoardColumn.find_all_by_project_id(@project.id, :order => 'weight')
+    # Get columns from current project, if empty recurse into parent project
+    project = @project
+    begin 
+       @columns = TaskBoardColumn.find_all_by_project_id(project.id, :order => 'weight')
+       project = project.parent
+    end while @column.nil? and !project.nil?
+    # set the columns project back to the original project
+    @columns.each{|column| column.project=@project} unless @columns.nil?
     @status_names = Hash.new
     IssueStatus.select([:id, :name]).each do |status|
       @status_names[status.id] = status.name
