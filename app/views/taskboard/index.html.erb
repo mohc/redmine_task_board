@@ -35,6 +35,7 @@
                   </p>
                   <p class="issue-priority">
                     <%= issue.priority.name %>
+                    <%= estimated_size(issue) %>
                   </p>
                 </div>
                 <h3><%= link_to issue.subject, :controller => :issues, :action => :show, :id => issue.id %></h3>
