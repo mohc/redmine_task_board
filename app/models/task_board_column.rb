@@ -22,7 +22,6 @@ class TaskBoardColumn < ActiveRecord::Base
   		issues = Issue.select("issues.*, tbi.is_archived, tbi.#{order_column} as weight, tbi.issue_id") \
   			.joins('LEFT OUTER JOIN task_board_issues AS tbi ON tbi.issue_id = issues.id') \
   			.where(:project_id => projects).where("status_id = ? AND (is_archived IS NULL OR is_archived = 0)", status.id) \
-#  			.order("weight ASC, priority_id ASC, created_on ASC")
   			.order("weight ASC, priority_id DESC, created_on ASC")
   		issues.each do |issue|
         # Create a TaskBoardIssue (i.e. a Card) if one doesn't exist already.
