@@ -4,6 +4,7 @@ class TaskboardController < ApplicationController
   before_filter :find_project
   before_filter :authorize
   helper_method :column_manager_locals
+  helper TagsHelper if defined?(TagsHelper)
 
   def index
     # Get columns from current project, if empty recurse into parent project
@@ -30,7 +31,9 @@ class TaskboardController < ApplicationController
     end
     if params[:move] then
       params[:move].each do |issue_id, new_status_id|
-        issue = Issue.find(issue_id).update_attribute(:status_id, new_status_id)
+        issue = Issue.find(issue_id)
+        issue.init_journal(User.current)
+        issue.update_attribute(:status_id, new_status_id)
       end
     end
     respond_to do |format|
