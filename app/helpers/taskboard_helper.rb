@@ -2,7 +2,7 @@ module TaskboardHelper
 def estimated_size(issue)
    return "" if issue.estimated_hours.nil?
    if issue.estimated_hours>=15
-       size="-L[18]"
+       size="-L[21]"
    elsif issue.estimated_hours>=8
            size="-L[13]"
    elsif issue.estimated_hours>5
