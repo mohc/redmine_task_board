@@ -12,7 +12,7 @@
     <%= label_tag "priority", "Priority" %>
     <%= select_tag("priority", options_for_select([['Any', '0']] + IssuePriority.all.collect { |m| [ m.name, m.id ] } )) %>
     <%= label_tag "category", "Category" %>
-    <%= select_tag("category", options_for_select([['Any', '0']] + @project.issue_categories.collect { |m| [ m.name, m.id ] } )) %>
+    <%= select_tag("category", options_for_select([['Any', '0']] + @project.send([:inherited_categories, :issue_categories].select{|m| @project.respond_to?(m)}.first).collect { |m| [ m.name, m.id ] } )) %>
     <% if @project.children.active.any? %>
       <%= label_tag "project", "Project" %>
       <%= select_tag("project", options_for_select([['Any', '0']] + @project.children.active.collect { |m| [ m.name, m.id ] } )) %>
